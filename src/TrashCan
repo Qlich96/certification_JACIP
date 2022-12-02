@@ -1,0 +1,307 @@
+<test>
+    <test-case>
+        <q>/start</q>
+        <a>Приветствую в чат-боте туристической компании «Just Tour». Я могу рассказать о погоде в разных городах и странах мира, а также помочь с оформлением тура.</a>
+        <a>Как могу к вам обращаться?</a>
+        <q>Иван</q>
+        <a>Приятно познакомиться Иван! Чем могу вам помочь?</a>
+    </test-case>
+    
+    <test-case>
+        <state>/named</state>
+        <q>Погода на завтра</q>
+        <a>В каком городе вы хотите узнать погоду?</a>
+        <q>Москва</q>
+        <a state="/named/checkWeather/getForecast" />
+    </test-case>
+    
+    <test-case>
+        <state>/named</state>
+        <q>Погода в Москве</q>
+        <a>На какую дату вы хотите узнать погоду?</a>
+        <q>На вторник</q>
+        <a state="/named/checkWeather/getForecast" />
+    </test-case>
+
+    <test-case>
+        <state>/named</state>
+        <q>Погода</q>
+        <a>В каком городе вы хотите узнать погоду?</a>
+        <q>Москва</q>
+        <a>На какую дату вы хотите узнать погоду?</a>
+        <q>На вторник</q>        
+        <a state="/named/checkWeather/getForecast" />
+    </test-case>
+
+    <test-case>
+        <state>/named</state>
+        <q>Погода на завтра в москве</q>
+        <a state="/named/checkWeather/getForecast" />
+    </test-case>
+</test>    
+
+
+  smtp:
+    host: 'smtp.google.ru'
+    port: 465
+    from: 'alltechjaicp@gmail.com'
+    user: 'alltechjaicp@gmail.com'
+    password: 'uixscadjfbuoaeco' #adysuhmjzjrqpvcl / uixscadjfbuoaeco
+    
+
+require: main.sc
+patterns:
+        $undecide = (не (уверен/знаю/определился))
+theme: /
+    
+    state: test
+        q!: тест
+        a: Тестовый стейт
+        
+        buttons:
+            "send" -> ./send
+            "test" -> ./test
+
+        state: send
+            
+            script:
+                
+                init: $mail.debug(true);
+                var result = $mail.send({
+                    from: "alltechjaicp@mail.ru",
+                    hiddenCopy: [],
+                    to: ["info@alltech.su"],
+                    subject: "Тест SMTP",
+                    content: "ЕСЛИ СООБЩЕНИЕ ОТПРАВИТСЯ Я СЛОМАЮ ЧТО-НИБУДЬ!!!!",
+                    smtpHost: "smtp.mail.ru",
+                    smtpPort: "465",
+                    user: "alltechjaicp@mail.ru",
+                    password: "1cpds61v7WiDbHd5Kx7X"
+                });
+                
+                if (result.status == "OK") {
+                    $reactions.answer("Письмо отправленно");
+                } else {$reactions.answer("Ошибка отправки")};
+                
+        state: test    
+            script:
+                $reactions.answer("Город — " + $session.geo + '\n<br>' + "Количество человек — " + $session.numberOfPoeple + '\n<br>' + "Количество детей — " + $session.numberOfChildrens + '\n<br>' + "Бюджет — " + $session.Budget + '\n<br>' + "Дата начала поездки — " + $session.startDate.day + "." + $session.startDate.month + "." + $session.startDate.year + '\n<br>' + "Длительность поездки — " + $session.tripDuration + '\n<br>' + "Звёздность отеля — " + $session.hotelStars + '\n<br>' + "Имя — " + $client.name + '\n<br>' + "Телефон — " + $client.phone + '\n<br>' + "Комментарий — " + $session.comment);
+            
+        state: catchall
+            q: *
+            a: catchall    
+                
+        state: undecided
+            q: $undecide
+            a: undecided
+            
+            
+            
+            
+           
+            state: numberOfPeople
+                a: На сколько человек оформляем тур? 
+                buttons:
+                    "Пропустить" -> ./numberOfChildrens
+                    
+                state: numberOfChildrens
+                    intent: /Number
+                    script: $session.numberOfPoeple = $parseTree.text
+                    a: Сколько из них дети? Дети считаются до 12 лет.
+                    buttons:
+                        "Пропустить" -> ./Budget
+                    
+                    state: Budget
+                        intent: /Number
+                        script: $session.numberOfChildrens = $parseTree.text
+                        a: Какой у Вас бюджет поездки?
+                        buttons:
+                            "Пропустить" -> ./startDate
+                            
+                        state: startDate
+                            intent: /Number/Budget
+                            script: $session.Budget = $parseTree.text
+                            a: Дата начала поездки?
+                            buttons:
+                                "Пропустить" -> ./tripDuration
+                            
+                            state: tripDuration
+                                intent: /Date
+                                script: $session.startDate = $parseTree._DATE
+                                a: Длительность поездки?
+                                buttons:
+                                    "Пропустить" -> ./hotelStars
+                                
+                                state: hotelStars
+                                    intent: /Number
+                                    script: $session.tripDuration = $parseTree.text
+                                    a: Желаемая звёздность отеля?
+                                    buttons:
+                                        "Пропустить" -> ./username
+                                        
+                                    state: username
+                                        intent: /Number
+                                        script: $session.hotelStars = $parseTree.text
+                                        a: Контатное лицо — {{$client.name}}, верно?
+                                        buttons:
+                                            "Да" -> ./phone
+                                            "Нет" -> ./whatsName
+
+                                        state: whatsName    
+                                            a: На чьё имя оформляем заявку?
+                                        
+                                            state: getName
+                                                intent: /name
+                                                script: $client.name = $parseTree._NAME
+                                                go!: /named/arrangeTour/numberOfPeople/numberOfChildrens/Budget/startDate/tripDuration/hotelStars/username/phone
+                                            
+                                            state: localCatchAll
+                                                event: noMatch
+                                                script: $client.name = $parseTree.text
+                                                a: Хмм, я не знаю имени {{$client.name}}. Вы уверены в правильности написания?
+                                                buttons: 
+                                                    "Да" -> ./named/arrangeTour/numberOfPeople/numberOfChildrens/Budget/startDate/tripDuration/hotelStars/username/phone
+                                                    "Нет" -> ./goWhatsName
+                                                
+                                                state: goWhatsName
+                                                    go!: /named/arrangeTour/numberOfPeople/numberOfChildrens/Budget/startDate/tripDuration/hotelStars/username/whatsName
+                                            
+                                        state: phone
+                                            a: Пожалуйста оставьте контактный номер телефона
+                                            buttons:
+                                                {text: "Отправить номер телефона", request_contact: true}
+                                            
+                                            state: getPhoneEvent
+                                                event!: telegramSendContact
+                                                script: $client.phone = $request.rawRequest.message.contact.phone_number;
+                                                go!: /named/arrangeTour/numberOfPeople/numberOfChildrens/Budget/startDate/tripDuration/hotelStars/username/phone/comment
+                                                
+                                            state: getPhone
+                                                intent: /Phone
+                                                script: $client.phone = $parseTree._Phone
+                                                go!: /named/arrangeTour/numberOfPeople/numberOfChildrens/Budget/startDate/tripDuration/hotelStars/username/phone/comment
+                                            
+                                            state: comment
+                                                a: Хотите оставить комментарий для менеджера?
+                                                buttons:
+                                                    "Да"
+                                                    "Нет" -> ./sendEmail
+                                                    
+                                                state: getComment
+                                                    q: $agree
+                                                    a: Можете оставить свой комментарий в свободной форме
+                                                
+                                                    state: 1
+                                                        q: * || fromState = "/named/arrangeTour/numberOfPeople/numberOfChildrens/Budget/startDate/tripDuration/hotelStars/username/phone/comment/getComment", onlyThisState = True
+                                                        script: $session.comment = $parseTree.text
+                                                        go!: /named/arrangeTour/numberOfPeople/numberOfChildrens/Budget/startDate/tripDuration/hotelStars/username/phone/comment/sendEmail
+                                                    
+                                                state: sendEmail
+                                                    script: 
+                                                        init: $mail.debug(true);
+                                                        if ($session.startDate) {$session.startDate = $session.startDate.day + "." + $session.startDate.month + "." + $session.startDate.year} 
+                                                        else {$session.startDate = "не выбрано"};
+                                                        var result = $mail.send({
+                                                            from: "alltechjaicp@mail.ru",
+                                                            hiddenCopy: [],
+                                                            to: ["alltechjaicp@mail.ru"],
+                                                            subject: "Новая заявка на подбор тура",
+                                                            content: "Город — " + $session.geo + '\n<br>' + "Количество человек — " + $session.numberOfPoeple + '\n<br>' + "Количество детей — " + $session.numberOfChildrens + '\n<br>' + "Бюджет — " + $session.Budget + '\n<br>' + "Дата начала поездки — " + $session.startDate + '\n<br>' + "Длительность поездки — " + $session.tripDuration + '\n<br>' + "Звёздность отеля — " + $session.hotelStars + '\n<br>' + "Имя — " + $client.name + '\n<br>' + "Телефон — " + $client.phone + '\n<br>' + "Комментарий — " + $session.comment,
+                                                            smtpHost: "smtp.mail.ru",
+                                                            smtpPort: "465",
+                                                            user: "alltechjaicp@mail.ru",
+                                                            password: "1cpds61v7WiDbHd5Kx7X"
+                                                        });
+                                                        if (result.status == "OK") {
+                                                            $reactions.answer("Отправил вашу заявку менеджеру, он перезвонит вам как только с ней ознакомится! Будем ждать вас снова, не пропустите звонок!");
+                                                            $reactions.transition("/named/End");
+                                                        } else {
+                                                            $reactions.answer("К сожалению, не удалось отправить заявку менеджеру. Пожалуйста, обратитесь за подбором тура по телефону 8(812)000-00-00. Хорошего дня!");
+                                                            };
+                                                                
+                                                                                      
+                                            state: localCatchAll
+                                                event: noMatch
+                                                a: Это не похоже на номер телефона, пожалуйста проверьте правильность введённого номера    
+                                                
+
+                    if ($session.numberOfPoeple) {
+                        if ($session.numberOfChildrens) {
+                            if ($session.Budget) {
+                                if ($session.startDate) {
+                                    if ($session.tripDuration) {
+                                        if ($session.hotelStars) {
+                                            if ($client.name) {
+                                                if ($client.phone) {
+                                                    if ($session.comment) {
+                                                        $reactions.transition("/named/arrangeTour/comment");
+                                                        } else {
+                                                            $reactions.transition("/named/arrangeTour/comment");
+                                                            };
+                                                    } else {
+                                                        $reactions.transition("/named/arrangeTour/phone");
+                                                        };
+                                                } else {
+                                                $reactions.transition("/named/arrangeTour/username");
+                                                    };
+                                            } else {
+                                                $reactions.transition("/named/arrangeTour/hotelStars");
+                                                };
+                                        } else {
+                                            $reactions.transition("/named/arrangeTour/tripDuration");
+                                            };
+                                    } else {
+                                        $reactions.transition("/named/arrangeTour/startDate");
+                                        };
+                                } else {
+                                    $reactions.transition("/named/arrangeTour/Budget");
+                                    };
+                            } else {
+                                $reactions.transition("/named/arrangeTour/numberOfChildrens");
+                                };
+                        } else {
+                            $reactions.transition("/named/arrangeTour/numberOfPeople");
+                            };
+                
+
+    <test-case>
+        <mockData>
+            <query>http://api.openweathermap.org/geo/1.0/direct?q=${q}&amp;limit=1&amp;appid=${appid}</query>
+            <parameters>
+                <appid>299b469a72556ec4b341666c06844c51</appid>
+                <q>Норильск</q>
+            </parameters>
+            <response>
+                [
+                    {
+
+                        "lat": 69.3498394,
+                        "lon": 88.200517
+
+                    }
+                ]
+            </response>
+        </mockData>
+        
+        <mockData>
+            <query>https://api.stormglass.io/v2/weather/point?lat=69.3498394&amp;lng=88.200517&amp;params=airTemperature&amp;start=2022-12-02T12:00&amp;end=2022-12-02T12:00</query>
+            <response>
+                {
+                    "hours": [
+                        {
+                            "airTemperature": {
+                                "noaa": -15,
+                                "sg": -15
+                            },
+                            "time": "2022-12-02T12:00:00+00:00"
+                        }
+                    ]
+                }
+            </response>
+        </mockData>
+        
+        <q>Погода в Норильске на завтра</q>
+        <a>02.12.2022 температура в Норильске -15"°C" Вы уверены что хотите посетить страну с таким холодным климатом?"</a>
+    </test-case>
+    
+    

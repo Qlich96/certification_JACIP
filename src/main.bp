@@ -1,0 +1,35 @@
+{
+  "positions" : [ {
+    "id" : "/Start",
+    "x" : -94,
+    "y" : -34
+  }, {
+    "id" : "/unnamed",
+    "x" : 596,
+    "y" : -187
+  }, {
+    "id" : "/named",
+    "x" : 703,
+    "y" : 235
+  }, {
+    "id" : "/unnamed/getName",
+    "x" : -4,
+    "y" : 255
+  }, {
+    "id" : "/named/checkWeather",
+    "x" : -320,
+    "y" : 146
+  }, {
+    "id" : "/named/checkWeather/getForecast",
+    "x" : 147,
+    "y" : 380
+  }, {
+    "id" : "/named/checkWeather/getBoth",
+    "x" : 431,
+    "y" : -173
+  }, {
+    "id" : "/named/checkWeather/getDate",
+    "x" : 881,
+    "y" : 408
+  } ]
+}

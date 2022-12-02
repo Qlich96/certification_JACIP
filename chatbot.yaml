@@ -1,0 +1,24 @@
+name: zb-cailapub
+
+entryPoint:
+  - main.sc
+  
+botEngine: v2
+language: ru
+
+tests:
+  include:
+    - hello.xml
+    - tour.xml
+    - weather.xml
+
+injector:
+  ow_api_key: '299b469a72556ec4b341666c06844c51'
+  sg_api_key: 'dfca1df6-0a93-11ed-a226-0242ac130002-dfca1fb8-0a93-11ed-a226-0242ac130002'
+
+
+sts:
+    noMatchThreshold: 0.2
+
+caila:
+    noMatchThreshold: 0.2

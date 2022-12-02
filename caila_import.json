@@ -1,0 +1,496 @@
+{
+  "project" : {
+    "id" : "jaicp_cert-1000023723-NqA",
+    "name" : "jaicp_cert-1000023723-NqA",
+    "folder" : "/jaicp"
+  },
+  "settings" : {
+    "language" : "ru",
+    "spellingCorrection" : false,
+    "classificationAlgorithm" : "sts",
+    "timezone" : "UTC",
+    "extendedSettings" : {
+      "tokenizerEngine" : "mystem",
+      "useShared" : false
+    },
+    "shared" : false
+  },
+  "intents" : [ {
+    "path" : "/Number/tripDuration",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    }, {
+      "text" : "неделя"
+    }, {
+      "text" : "неделька"
+    }, {
+      "text" : "месяц"
+    }, {
+      "text" : "уикенд"
+    }, {
+      "text" : "ближайшие выходные"
+    }, {
+      "text" : "пара дней"
+    }, {
+      "text" : "дюжина дней"
+    }, {
+      "text" : "пол года"
+    }, {
+      "text" : "год"
+    }, {
+      "text" : "день"
+    }, {
+      "text" : "денек"
+    }, {
+      "text" : "пара недель"
+    }, {
+      "text" : "пара месяцев"
+    } ],
+    "classificationRules" : {
+      "refs" : [ {
+        "entityName" : "duckling.number",
+        "predicate" : "CONTAINS"
+      } ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "NUMBER",
+      "entity" : "duckling.number",
+      "required" : true,
+      "prompts" : [ ]
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Number/ofChildrens",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    }, {
+      "text" : "младенцы"
+    }, {
+      "text" : "детишки"
+    }, {
+      "text" : "детей"
+    }, {
+      "text" : "девочки"
+    }, {
+      "text" : "мальчики"
+    }, {
+      "text" : "пацанят"
+    }, {
+      "text" : "ребятишки"
+    }, {
+      "text" : "малыши"
+    }, {
+      "text" : "малышей"
+    }, {
+      "text" : "внуки"
+    }, {
+      "text" : "прицепа"
+    }, {
+      "text" : "половина"
+    }, {
+      "text" : "треть"
+    }, {
+      "text" : "четверть"
+    }, {
+      "text" : "нету"
+    }, {
+      "text" : "без детей"
+    }, {
+      "text" : "нет"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "NUMBER",
+      "entity" : "duckling.number",
+      "required" : false,
+      "prompts" : [ "сколько детей?" ]
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Number/ofPeople",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    }, {
+      "text" : "Взрослых"
+    }, {
+      "text" : "Совершеннолетних"
+    }, {
+      "text" : "мелких"
+    }, {
+      "text" : "ребенок"
+    }, {
+      "text" : "людей"
+    }, {
+      "text" : "малыш"
+    }, {
+      "text" : "старших"
+    } ],
+    "classificationRules" : {
+      "refs" : [ {
+        "entityName" : "duckling.number",
+        "predicate" : "CONTAINS"
+      } ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "NUMBER",
+      "entity" : "duckling.number",
+      "required" : false,
+      "prompts" : [ ]
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Name",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@pymorphy.name"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "NAME",
+      "entity" : "pymorphy.name",
+      "required" : false,
+      "prompts" : [ ],
+      "array" : false
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Weather",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "Погода в "
+    }, {
+      "text" : "Погода на завтра"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "GEO",
+      "entity" : "pymorphy.geox",
+      "required" : true,
+      "prompts" : [ "Где вы хотите узнать погоду?" ],
+      "array" : false
+    }, {
+      "name" : "DATE",
+      "entity" : "duckling.date",
+      "required" : true,
+      "prompts" : [ "На какую дату вы хотите узнать погоду?" ],
+      "array" : false
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Geo",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@pymorphy.geox"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "GEO",
+      "entity" : "pymorphy.geox",
+      "required" : true,
+      "prompts" : [ "Пожалуйста уточните город или страну" ],
+      "array" : false
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Date",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.date"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "DATE",
+      "entity" : "duckling.date",
+      "required" : true,
+      "prompts" : [ ],
+      "array" : false
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Phone",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.phone-number"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "Phone",
+      "entity" : "duckling.phone-number",
+      "required" : true,
+      "prompts" : [ "Некорректный номер телефона" ],
+      "array" : false
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Number",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    }, {
+      "text" : "Неделя"
+    }, {
+      "text" : "Месяц"
+    } ],
+    "classificationRules" : {
+      "refs" : [ {
+        "entityName" : "duckling.number",
+        "predicate" : "CONTAINS"
+      } ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "NUMBER",
+      "entity" : "duckling.number",
+      "required" : true,
+      "prompts" : [ "Пожалуйста, введите число в любом формате (1, один)" ],
+      "array" : false
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Tour",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "оформить тур"
+    }, {
+      "text" : "заявка"
+    }, {
+      "text" : "заполнить заявку"
+    }, {
+      "text" : "оформить заявку"
+    }, {
+      "text" : "купить билеты"
+    }, {
+      "text" : "приобрести тур"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "priority" : 0
+  }, {
+    "path" : "/Number/Budget",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    }, {
+      "text" : "@duckling.amount-of-money"
+    }, {
+      "text" : "Любой"
+    }, {
+      "text" : "без разницы"
+    }, {
+      "text" : "не имеет значения"
+    }, {
+      "text" : "хоть сколько"
+    }, {
+      "text" : "свободный"
+    }, {
+      "text" : "не ограничен"
+    }, {
+      "text" : "бабки не проблема"
+    }, {
+      "text" : "деньги не проблема"
+    } ],
+    "classificationRules" : {
+      "refs" : [ ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "NUMBER",
+      "entity" : "duckling.number",
+      "required" : false,
+      "prompts" : [ ],
+      "array" : false
+    }, {
+      "name" : "BUDGET",
+      "entity" : "duckling.amount-of-money",
+      "required" : false,
+      "prompts" : [ "Какой у вас бюджет, в рублях?" ],
+      "array" : false
+    } ],
+    "priority" : 0
+  }, {
+    "path" : "/Number/hotelStars",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@duckling.number"
+    }, {
+      "text" : "Однозвёздочный"
+    }, {
+      "text" : "Двузвёздочный"
+    }, {
+      "text" : "Трехзвёздочный"
+    }, {
+      "text" : "двухзвёздочный"
+    }, {
+      "text" : "четырёхзвёздочный"
+    }, {
+      "text" : "пятизвёздочный"
+    }, {
+      "text" : "звёздочный"
+    }, {
+      "text" : "Всё включено"
+    }, {
+      "text" : "Инклюзив"
+    }, {
+      "text" : "ол инклюзив"
+    }, {
+      "text" : "все"
+    } ],
+    "classificationRules" : {
+      "refs" : [ {
+        "entityName" : "duckling.number",
+        "predicate" : "CONTAINS"
+      } ]
+    },
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "NUMBER",
+      "entity" : "duckling.number",
+      "required" : false,
+      "prompts" : [ ]
+    } ],
+    "priority" : 0
+  } ],
+  "entities" : [ ],
+  "enabledSystemEntities" : [ "pymorphy.name", "pymorphy.geox", "duckling.number", "duckling.amount-of-money", "duckling.time", "duckling.date", "duckling.duration", "duckling.phone-number", "duckling.email", "duckling.url" ],
+  "spellerDictionary" : [ ],
+  "systemEntities" : [ {
+    "name" : "mystem.geo",
+    "enabled" : false
+  }, {
+    "name" : "mystem.persn",
+    "enabled" : false
+  }, {
+    "name" : "mystem.obsc",
+    "enabled" : false
+  }, {
+    "name" : "mystem.patrn",
+    "enabled" : false
+  }, {
+    "name" : "mystem.famn",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.romn",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.latn",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.numb",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.intg",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.abbr",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.name",
+    "enabled" : true
+  }, {
+    "name" : "pymorphy.surn",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.patr",
+    "enabled" : false
+  }, {
+    "name" : "pymorphy.geox",
+    "enabled" : true
+  }, {
+    "name" : "pymorphy.orgn",
+    "enabled" : false
+  }, {
+    "name" : "duckling.number",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.ordinal",
+    "version" : "v2",
+    "enabled" : false
+  }, {
+    "name" : "duckling.amount-of-money",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.distance",
+    "version" : "v2",
+    "enabled" : false
+  }, {
+    "name" : "duckling.time",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.date",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.time-of-day",
+    "version" : "v2",
+    "enabled" : false
+  }, {
+    "name" : "duckling.duration",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.phone-number",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.email",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.url",
+    "version" : "v2",
+    "enabled" : true
+  }, {
+    "name" : "duckling.interval",
+    "version" : "v2",
+    "enabled" : false
+  }, {
+    "name" : "mlps-obscene.obscene",
+    "enabled" : false
+  }, {
+    "name" : "zb.datetime",
+    "enabled" : false
+  }, {
+    "name" : "zb.number",
+    "enabled" : false
+  } ]
+}

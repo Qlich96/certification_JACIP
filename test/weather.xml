@@ -1,0 +1,35 @@
+<test>
+    <test-case id="Глобальный интент">
+        <q>Погода в Москве</q>
+        <a>На какую дату вы хотите узнать погоду?</a>
+    </test-case>
+
+    <test-case id="Без уточнений">
+        <q>Расскажи погоду</q>
+        <a>Где вы хотите узнать погоду?</a>
+        <q>Москва</q>
+        <a>На какую дату вы хотите узнать погоду?</a>
+        <q>Следующий вторник</q>
+        <a state="/named/checkWeather/getGeocode/getForecast"/>
+    </test-case>  
+    
+    <test-case id="Без города/страны">
+        <q>Расскажи погоду на завтра</q>
+        <a>Где вы хотите узнать погоду?</a>
+        <q>Москва</q>
+        <a state="/named/checkWeather/getGeocode/getForecast"/>
+    </test-case>
+    
+    <test-case id="Без даты">
+        <q>Какая погода в Москве</q>
+        <a>На какую дату вы хотите узнать погоду?</a>
+        <q>Следующий вторник</q>
+        <a state="/named/checkWeather/getGeocode/getForecast"/>
+    </test-case>
+    
+    <test-case id="Все слоты заполнены">
+        <q>Расскажи погоду в Екатеринбурге на завтра</q>
+        <a state="/named/checkWeather/getGeocode/getForecast"/>
+    </test-case>    
+    
+</test>
