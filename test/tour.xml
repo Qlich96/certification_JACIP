@@ -1,6 +1,208 @@
 <test>
-    <test-case id="g">
-
+    <test-case id="Глобальный интент">
+        <q>Оформить тур</q>
+        <a>Куда вы бы хотели отправиться?</a>
     </test-case>
-  
+    
+    <test-case id="Уже заполнял тур">
+        <context var="session">
+            {
+                "geo": "Москва",
+                "numberOfPoeple": "пять"
+            }
+        </context>
+        
+        <q>Оформить тур</q>
+        <q>Вижу, что Вы уже начинали оформлять тур, Продолжим?</q>
+    </test-case>
+    
+    <test-case id="Еще не заполнял тур">
+        <context var="client">
+            {
+                "name": "Иван"
+            }
+        </context>
+        <context var="session">
+            {
+                "geo": "Москва",
+                "numberOfPoeple": "null"
+            }
+        </context>
+        
+        <q>Оформить тур</q>
+        <q>Отлично! Иван, тогда хочу предложить Вам оформить тур в Москву, начнем заполнение заявки?</q>
+    </test-case>
+
+    <test-case id="Указывает город">
+        <q>Оформить тур</q>
+        <a>Куда вы бы хотели отправиться?</a>
+        <q>Франция</q>
+        <a>На сколько человек оформляем тур?</a>
+    </test-case>
+    
+    <test-case id="Не определился">
+        <q>Оформить тур</q>
+        <a>Куда вы бы хотели отправиться?</a>
+        <q>не знаю</q>
+        <a>На сколько человек оформляем тур?</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Город">
+        <q>Оформить тур</q>
+        <a>Куда вы бы хотели отправиться?</a>
+        <q>блаблабла</q>
+        <a>Мы не сможем оформить тур, если вы не подскажите нам, куда хотите отправиться. Пожалуйста напишите город или страну</a>
+    </test-case>
+    
+    <test-case id="Количество человек">
+        <state>/named/arrangeTour/numberOfPeople</state>
+        <q>Трое</q>
+        <a>Будут ли среди них дети и сколько? Дети считаются до 12 лет.</a>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Количество человек">
+        <state>/named/arrangeTour/numberOfPeople</state>
+        <q>Пропустить</q>
+        <a>Будут ли среди них дети и сколько? Дети считаются до 12 лет.</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Количество человек">
+        <state>/named/arrangeTour/numberOfPeople</state>
+        <q>Анатомия альбатроса</q>
+        <a>Мы не сможем помочь вам с оформлением тура, если не будем знать сколько человек поедет. Пожалуйста напишите количество людей в поездке цифрой</a>
+    </test-case>
+    
+    <test-case id="Количество детей">
+        <state>/named/arrangeTour/numberOfChildrens</state>
+        <q>двое</q>
+        <a>Какой у Вас бюджет поездки?</a>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Количество детей">
+        <state>/named/arrangeTour/numberOfChildrens</state>
+        <q>Пропустить</q>
+        <a>Какой у Вас бюджет поездки?</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Количество детей">
+        <state>/named/arrangeTour/numberOfChildrens</state>
+        <q>Анатомия кита</q>
+        <a>Мы не сможем корректно рассчитать стоимость, если не будем знать, сколько поедет детей. Пожалуйста напишите ответ цифрой</a>
+    </test-case>
+    
+    <test-case id="Бюджет">
+        <state>/named/arrangeTour/Budget</state>
+        <q>Десять тысяч рублей</q>
+        <a>Дата начала поездки?</a>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Бюджет">
+        <state>/named/arrangeTour/Budget</state>
+        <q>Пропустить</q>
+        <a>Дата начала поездки?</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Бюджет">
+        <state>/named/arrangeTour/Budget</state>
+        <q>Ну если вы правда это читаете мне очень приятно</q>
+        <a>Не зная ваш бюджет на поездку нам будет очень сложно помочь вам с оформлением тура. Пожалуйста напишите, какую сумму вы закладываете на путешествие</a>
+    </test-case>
+    
+    <test-case id="Дата начала поездки">
+        <state>/named/arrangeTour/startDate</state>
+        <q>Через недельку планировали</q>
+        <a>Длительность поездки?</a>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Дата начала поездки">
+        <state>/named/arrangeTour/startDate</state>
+        <q>Пропустить</q>
+        <a>Длительность поездки?</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Дата начала поездки">
+        <state>/named/arrangeTour/startDate</state>
+        <q>Пытаюсь сломать бота, потому что могу</q>
+        <a>Стоимость тура сильно отличается в зависимости от даты начала поездки. Пожалуйста напишите удобную вам дату отправления</a>
+    </test-case>
+    
+    <test-case id="Длительность поездки">
+        <state>/named/arrangeTour/tripDuration</state>
+        <q>где то две три недели</q>
+        <a>Длительность поездки?</a>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Длительность поездки">
+        <state>/named/arrangeTour/tripDuration</state>
+        <q>Пропустить</q>
+        <a>Длительность поездки?</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Длительность поездки">
+        <state>/named/arrangeTour/tripDuration</state>
+        <q>абра кадабра</q>
+        <a>Для расчёта стоимости необходимо знать длительность поездки. Пожалуйста напишите, сколько дней вы планируете заложить на путешествие</a>
+    </test-case>
+    
+    <test-case id="Звёздность отеля">
+        <context var="client">
+            {
+                "name": "Иван"
+            }
+        </context>
+        
+        <state>/named/arrangeTour/hotelStars</state>
+        <q>Пять</q>
+        <a>Контатное лицо — Иван, верно?</a>
+    </test-case>
+    
+    <test-case id="Звёздность отеля. Превышена звёздность">
+        <state>/named/arrangeTour/hotelStars</state>
+        <context var="client">
+            {
+                "name": "Иван"
+            }
+        </context>
+        
+        <q>Десять</q>
+        <a>Существуют только отели со звёздностью от 1 до 5</a>
+        <q>Пять</q>
+        <a>Контатное лицо — Иван, верно?</a>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Звёздность отеля">
+        <context var="client">
+            {
+                "name": "Иван"
+            }
+        </context>
+        
+        <state>/named/arrangeTour/hotelStars</state>
+        <q>Пропустить</q>
+        <a>Контатное лицо — Иван, верно?</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Звёздность отеля">
+        <state>/named/arrangeTour/hotelStars</state>
+        <q>Вот бы на Айми все эти функции добавить</q>
+        <a>Пожалуйста напишите желаемую звёздность отеля от 1 до 5</a>
+    </test-case>
+    
+    <test-case id="Имя клиента">
+        <state>/named/arrangeTour/username</state>
+        <q>Да</q>
+        <a>Длительность поездки?</a>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Имя клиента">
+        <state>/named/arrangeTour/username</state>
+        <q>Пропустить</q>
+        <a>Длительность поездки?</a>
+    </test-case>
+    
+    <test-case id="Непредсказуемая фраза. Имя клиента">
+        <state>/named/arrangeTour/username</state>
+        <q>абра кадабра</q>
+        <a>Для расчёта стоимости необходимо знать длительность поездки. Пожалуйста напишите, сколько дней вы планируете заложить на путешествие</a>
+    </test-case>
 </test>

@@ -32,4 +32,89 @@
         <a state="/named/checkWeather/getGeocode/getForecast"/>
     </test-case>    
     
+    <test-case id="Запрос геолокации">
+        <mockData>
+            <query>http://api.openweathermap.org/geo/1.0/direct?q=${q}&amp;limit=1&amp;appid=${appid}</query>
+            <parameters>
+                <appid>299b469a72556ec4b341666c06844c51</appid>
+                <q>Норильск</q>
+            </parameters>
+            <response>
+                [
+                    {
+
+                        "lat": 69.3498394,
+                        "lon": 88.200517
+
+                    }
+                ]
+            </response>
+        </mockData>
+    </test-case>
+    
+    <test-case id="Запрос погоды. Холодный климат">
+        <mockData>
+            <query>https://api.stormglass.io/v2/weather/point?lat=69.3498394&amp;lng=88.200517&amp;params=airTemperature&amp;start=2022-12-02T12:00&amp;end=2022-12-02T12:00</query>
+            <response>
+                {
+                    "hours": [
+                        {
+                            "airTemperature": {
+                                "noaa": -15,
+                                "sg": -15
+                            },
+                            "time": "2022-12-02T12:00:00+00:00"
+                        }
+                    ]
+                }
+            </response>
+        </mockData>
+        
+        <q>Погода в Норильске на завтра</q>
+        <a>Что-то сервер барахлит. Не могу узнать погоду.</a>
+    </test-case>
+    
+    <test-case id="Запрос погоды. Умеренный климат">
+        <mockData>
+            <query>https://api.stormglass.io/v2/weather/point?lat=69.3498394&amp;lng=88.200517&amp;params=airTemperature&amp;start=2022-12-02T12:00&amp;end=2022-12-02T12:00</query>
+            <response>
+                {
+                    "hours": [
+                        {
+                            "airTemperature": {
+                                "noaa": 15,
+                                "sg": 15
+                            },
+                            "time": "2022-12-02T12:00:00+00:00"
+                        }
+                    ]
+                }
+            </response>
+        </mockData>
+        
+        <q>Погода в Екатеринбурге на завтра</q>
+        <a>Что-то сервер барахлит. Не могу узнать погоду.</a>
+    </test-case>
+    
+    <test-case id="Запрос погоды. Жаркий климат">
+        <mockData>
+            <query>https://api.stormglass.io/v2/weather/point?lat=69.3498394&amp;lng=88.200517&amp;params=airTemperature&amp;start=2022-12-02T12:00&amp;end=2022-12-02T12:00</query>
+            <response>
+                {
+                    "hours": [
+                        {
+                            "airTemperature": {
+                                "noaa": 31,
+                                "sg": 31
+                            },
+                            "time": "2022-12-02T12:00:00+00:00"
+                        }
+                    ]
+                }
+            </response>
+        </mockData>
+        
+        <q>Погода в Екатеринбурге на завтра</q>
+        <a>Что-то сервер барахлит. Не могу узнать погоду.</a>
+    </test-case>
 </test>

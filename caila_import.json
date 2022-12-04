@@ -1,7 +1,7 @@
 {
   "project" : {
-    "id" : "jaicp_cert-1000023723-NqA",
-    "name" : "jaicp_cert-1000023723-NqA",
+    "id" : "jaicp_cert-256479502-bJm",
+    "name" : "jaicp_cert-256479502-bJm",
     "folder" : "/jaicp"
   },
   "settings" : {
@@ -59,7 +59,8 @@
       "name" : "NUMBER",
       "entity" : "duckling.number",
       "required" : true,
-      "prompts" : [ ]
+      "prompts" : [ ],
+      "array" : false
     } ],
     "priority" : 0
   }, {
@@ -111,7 +112,8 @@
       "name" : "NUMBER",
       "entity" : "duckling.number",
       "required" : false,
-      "prompts" : [ "сколько детей?" ]
+      "prompts" : [ "сколько детей?" ],
+      "array" : false
     } ],
     "priority" : 0
   }, {
@@ -146,7 +148,8 @@
       "name" : "NUMBER",
       "entity" : "duckling.number",
       "required" : false,
-      "prompts" : [ ]
+      "prompts" : [ ],
+      "array" : false
     } ],
     "priority" : 0
   }, {
@@ -383,7 +386,8 @@
       "name" : "NUMBER",
       "entity" : "duckling.number",
       "required" : false,
-      "prompts" : [ ]
+      "prompts" : [ ],
+      "array" : false
     } ],
     "priority" : 0
   } ],
