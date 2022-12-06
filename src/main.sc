@@ -153,44 +153,8 @@ theme: /
     
             state: checker
                 script: // Проверяем какие данные уже заполнял клиент
-                    if ($session.numberOfPoeple) {
-                        if ($session.numberOfChildrens) {
-                            if ($session.Budget) {
-                                if ($session.startDate) {
-                                    if ($session.tripDuration) {
-                                        if ($session.hotelStars) {
-                                            if ($client.name) {
-                                                if ($client.phone) {
-                                                    if ($session.comment) {
-                                                        $reactions.transition("/named/arrangeTour/comment");
-                                                        } else {
-                                                            $reactions.transition("/named/arrangeTour/comment");
-                                                            };
-                                                    } else {
-                                                        $reactions.transition("/named/arrangeTour/phone");
-                                                        };
-                                                } else {
-                                                $reactions.transition("/named/arrangeTour/username");
-                                                    };
-                                            } else {
-                                                $reactions.transition("/named/arrangeTour/hotelStars");
-                                                };
-                                        } else {
-                                            $reactions.transition("/named/arrangeTour/tripDuration");
-                                            };
-                                    } else {
-                                        $reactions.transition("/named/arrangeTour/startDate");
-                                        };
-                                } else {
-                                    $reactions.transition("/named/arrangeTour/Budget");
-                                    };
-                            } else {
-                                $reactions.transition("/named/arrangeTour/numberOfChildrens");
-                                };
-                        } else {
-                            $reactions.transition("/named/arrangeTour/numberOfPeople");
-                            };
-
+                    cheсker($session.numberOfPoeple, $session.numberOfChildrens, $session.Budget, $session.startDate, $session.tripDuration, $session.hotelStars, $session.name, $client.phone, $session.comment)
+                    
             state: numberOfPeople
                 a: На сколько человек оформляем тур? 
                 buttons:
@@ -337,15 +301,27 @@ theme: /
                     state: localCatchAll || noContext = true
                         event: noMatch
                         script: $session.name = $parseTree.text
-                        a: Хмм, я не знаю имени {{$client.name}}. Вы уверены в правильности написания?
+                        a: Хмм, я не знаю имени {{$session.name}}. Вы уверены в правильности написания?
                         buttons: 
                             "Да" -> /named/arrangeTour/phone
                             "Нет" -> /named/arrangeTour/username/whatsName
+                        
+                        state: agree
+                            q: $agree
+                            go!: /named/arrangeTour/phone
+                        
+                        state: disagree
+                            q: $disagree
+                            go!: /named/arrangeTour/username/whatsName
 
                 state: agree
                     q: $agree
                     script: $session.name = $client.name 
                     go!: /named/arrangeTour/phone
+                
+                state: localCatchAll || noContext = true
+                    event: noMatch
+                    a: Извиняюсь что не понял вас, контактное лицо — {{$client.name}}?
 
             state: phone
                 a: Пожалуйста оставьте контактный номер телефона
@@ -364,7 +340,7 @@ theme: /
 
                 state: localCatchAll || noContext = true
                     event: noMatch
-                    a: Это не похоже на номер телефона, пожалуйста проверьте правильность введённого номера 
+                    a: Это не похоже на номер телефона, пожалуйста проверьте правильность введённого номера
 
             state: comment
                 a: Оставьте ваш комментарий в свободной форме
@@ -389,7 +365,7 @@ theme: /
                         hiddenCopy: [],
                         to: ["alltechjaicp@mail.ru"],
                         subject: "Новая заявка на подбор тура",
-                        content: "Город — " + $session.geo + '\n<br>' + "Количество человек — " + $session.numberOfPoeple + '\n<br>' + "Количество детей — " + $session.numberOfChildrens + '\n<br>' + "Бюджет — " + $session.Budget + '\n<br>' + "Дата начала поездки — " + $session.startDate + '\n<br>' + "Длительность поездки — " + $session.tripDuration + '\n<br>' + "Звёздность отеля — " + $session.hotelStars + '\n<br>' + "Имя — " + $client.name + '\n<br>' + "Телефон — " + $client.phone + '\n<br>' + "Комментарий — " + $session.comment,
+                        content: "Город — " + $session.geo + '\n<br>' + "Количество человек — " + $session.numberOfPoeple + '\n<br>' + "Количество детей — " + $session.numberOfChildrens + '\n<br>' + "Бюджет — " + $session.Budget + '\n<br>' + "Дата начала поездки — " + $session.startDate + '\n<br>' + "Длительность поездки — " + $session.tripDuration + '\n<br>' + "Звёздность отеля — " + $session.hotelStars + '\n<br>' + "Имя — " + $session.name + '\n<br>' + "Телефон — " + $client.phone + '\n<br>' + "Комментарий — " + $session.comment,
                         smtpHost: "smtp.mail.ru",
                         smtpPort: "465",
                         user: "alltechjaicp@mail.ru",
@@ -429,3 +405,4 @@ theme: /
         q!: сбрось имя 
         script: // функция для удобства тестирования
             $client.name = null
+

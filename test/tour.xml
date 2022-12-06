@@ -50,7 +50,7 @@
     <test-case id="Непредсказуемая фраза. Город">
         <q>Оформить тур</q>
         <a>Куда вы бы хотели отправиться?</a>
-        <q>блаблабла</q>
+        <event>noMatch</event>
         <a>Мы не сможем оформить тур, если вы не подскажите нам, куда хотите отправиться. Пожалуйста напишите город или страну</a>
     </test-case>
     
@@ -68,7 +68,7 @@
     
     <test-case id="Непредсказуемая фраза. Количество человек">
         <state>/named/arrangeTour/numberOfPeople</state>
-        <q>Анатомия альбатроса</q>
+        <event>noMatch</event>
         <a>Мы не сможем помочь вам с оформлением тура, если не будем знать сколько человек поедет. Пожалуйста напишите количество людей в поездке цифрой</a>
     </test-case>
     
@@ -86,7 +86,7 @@
     
     <test-case id="Непредсказуемая фраза. Количество детей">
         <state>/named/arrangeTour/numberOfChildrens</state>
-        <q>Анатомия кита</q>
+        <event>noMatch</event>
         <a>Мы не сможем корректно рассчитать стоимость, если не будем знать, сколько поедет детей. Пожалуйста напишите ответ цифрой</a>
     </test-case>
     
@@ -104,7 +104,7 @@
     
     <test-case id="Непредсказуемая фраза. Бюджет">
         <state>/named/arrangeTour/Budget</state>
-        <q>Ну если вы правда это читаете мне очень приятно</q>
+        <event>noMatch</event>
         <a>Не зная ваш бюджет на поездку нам будет очень сложно помочь вам с оформлением тура. Пожалуйста напишите, какую сумму вы закладываете на путешествие</a>
     </test-case>
     
@@ -122,7 +122,7 @@
     
     <test-case id="Непредсказуемая фраза. Дата начала поездки">
         <state>/named/arrangeTour/startDate</state>
-        <q>Пытаюсь сломать бота, потому что могу</q>
+        <event>noMatch</event>
         <a>Стоимость тура сильно отличается в зависимости от даты начала поездки. Пожалуйста напишите удобную вам дату отправления</a>
     </test-case>
     
@@ -140,7 +140,7 @@
     
     <test-case id="Непредсказуемая фраза. Длительность поездки">
         <state>/named/arrangeTour/tripDuration</state>
-        <q>абра кадабра</q>
+        <event>noMatch</event>
         <a>Для расчёта стоимости необходимо знать длительность поездки. Пожалуйста напишите, сколько дней вы планируете заложить на путешествие</a>
     </test-case>
     
@@ -184,25 +184,118 @@
     
     <test-case id="Непредсказуемая фраза. Звёздность отеля">
         <state>/named/arrangeTour/hotelStars</state>
-        <q>Вот бы на Айми все эти функции добавить</q>
+        <event>noMatch</event>
         <a>Пожалуйста напишите желаемую звёздность отеля от 1 до 5</a>
     </test-case>
     
-    <test-case id="Имя клиента">
+    <test-case id="Да. Имя клиента">
         <state>/named/arrangeTour/username</state>
         <q>Да</q>
-        <a>Длительность поездки?</a>
+        <a>Пожалуйста оставьте контактный номер телефона</a>
     </test-case>
     
-    <test-case id="Пропустить/не знаю. Имя клиента">
+    <test-case id="Нет. Имя клиента">
         <state>/named/arrangeTour/username</state>
-        <q>Пропустить</q>
-        <a>Длительность поездки?</a>
+        <q>нет</q>
+        <a>На чьё имя оформляем заявку?</a>
+    </test-case>
+    
+    <test-case id="Получение имени клиента">
+        <state>/named/arrangeTour/username/whatsName</state>
+        <q>Николай</q>
+        <a>Пожалуйста оставьте контактный номер телефона</a>
+    </test-case>
+    
+    <test-case id="Незнакомое имя + согласие">
+        <context var="session">
+            {
+                "name": "Никоглай"
+            }
+        </context>
+        
+        <state>/named/arrangeTour/username/whatsName</state>
+        <event>noMatch</event>
+        <a>Хмм, я не знаю имени Никоглай. Вы уверены в правильности написания?</a>
+        <q>Конечно</q>
+        <a>Пожалуйста оставьте контактный номер телефона</a>
+    </test-case>
+    
+    <test-case id="Незнакомое имя + отрицание">
+        <context var="session">
+            {
+                "name": "Никоглай"
+            }
+        </context>
+        
+        <state>/named/arrangeTour/username/whatsName</state>
+        <event>noMatch</event>
+        <a>Хмм, я не знаю имени Никоглай. Вы уверены в правильности написания?</a>
+        <q>Нет</q>
+        <a>На чьё имя оформляем заявку?</a>
     </test-case>
     
     <test-case id="Непредсказуемая фраза. Имя клиента">
+        <context var="client">
+            {
+                "name": "Иван"
+            }
+        </context>
+        
         <state>/named/arrangeTour/username</state>
-        <q>абра кадабра</q>
-        <a>Для расчёта стоимости необходимо знать длительность поездки. Пожалуйста напишите, сколько дней вы планируете заложить на путешествие</a>
+        <event>noMatch</event>
+        <a>Извиняюсь что не понял вас, контактное лицо — Иван?</a>
     </test-case>
+    
+    <test-case id="Отправка контакта в телеграм">
+        <state>/named/arrangeTour/phone</state>
+        <event>telegramSendContact</event>
+        <a>Оставьте ваш комментарий в свободной форме</a>
+    </test-case>
+    
+    <test-case id="Отправка телефона ручками">
+       <state>/named/arrangeTour/phone</state>
+       <q>89226063655</q>
+       <a>Оставьте ваш комментарий в свободной форме</a>
+    </test-case>
+    
+    <test-case id="Нераспознан телефон">
+       <state>/named/arrangeTour/phone</state>
+       <event>noMatch</event>
+       <a>Это не похоже на номер телефона, пожалуйста проверьте правильность введённого номера</a>
+    </test-case>
+    
+    <test-case id="Комментарий к заявке">
+        <state>/named/arrangeTour/comment</state>
+        <q>Коментирую коментарии</q>
+        <a state="/named/arrangeTour/sendEmail"/>
+    </test-case>
+    
+    <test-case id="Пропустить/не знаю. Комментарий к заявке">
+        <state>/named/arrangeTour/comment</state>
+        <q>Пропустить</q>
+        <a state="/named/arrangeTour/sendEmail"/>
+    </test-case>
+
+    <test-case id="Отправка письма">
+        <context var="session">
+            {
+                "geo": "Турция",
+                "numberOfPoeple": "Восемь",
+                "numberOfChildrens": "трое",
+                "Budget": "десять тысяч",
+                "startDate": "12.12.2022",
+                "tripDuration": "Две недели",
+                "hotelStars": "Пять",
+                "name": "Иван",
+                "comment": "Джакузи в номере"
+            }
+        </context>
+            
+        <state>/named/arrangeTour/sendEmail</state>
+        <mail recipient="alltechjaicp@mail.ru"
+              subject="Новая заявка на подбор тура"
+              body="Город — Турция \n<br> Количество человек — Восемь \n<br> Количество детей — трое \n<br> Бюджет — десять тысяч \n<br> Дата начала поездки — 12.12.2022 \n<br> Длительность поездки — Две недели \n<br> Звёздность отеля — Пять \n<br> Имя — Иван \n<br> Телефон — 79226063655 \n<br> Комментарий — Джакузи в номере"/>
+        <a>Отправил вашу заявку менеджеру, он перезвонит вам как только с ней ознакомится! Будем ждать вас снова, не пропустите звонок!</a>
+    </test-case>
+    
 </test>

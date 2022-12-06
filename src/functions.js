@@ -30,6 +30,45 @@ return $http.get("http://api.openweathermap.org/geo/1.0/direct?q=${q}&limit=1&ap
     });
 }
 
+function cheсker(numberOfPoeple, numberOfChildrens, Budget, startDate, tripDuration, hotelStars, name, phone, comment){
+    if (numberOfPoeple) {
+        if (numberOfChildrens) {
+            if (Budget) {
+                if (startDate) {
+                    if (tripDuration) {
+                        if (hotelStars) {
+                            if (name) {
+                                if (phone) {
+                                    if (comment) {
+                                        return $reactions.transition("/named/arrangeTour/comment");
+                                        } else {
+                                            return $reactions.transition("/named/arrangeTour/comment");
+                                            };
+                                    } else {
+                                        return $reactions.transition("/named/arrangeTour/phone");
+                                        };
+                                } else {
+                                    return $reactions.transition("/named/arrangeTour/username");
+                                };
+                            } else {
+                                return $reactions.transition("/named/arrangeTour/hotelStars");
+                                };
+                        } else {
+                            return $reactions.transition("/named/arrangeTour/tripDuration");
+                            };
+                    } else {
+                        return $reactions.transition("/named/arrangeTour/startDate");
+                        };
+                } else {
+                    return $reactions.transition("/named/arrangeTour/Budget");
+                    };
+            } else {
+                return $reactions.transition("/named/arrangeTour/numberOfChildrens");
+                };
+        } else {
+            return $reactions.transition("/named/arrangeTour/numberOfPeople");
+            };
 
+}
 
 
